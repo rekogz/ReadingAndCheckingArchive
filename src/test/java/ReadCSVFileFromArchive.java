@@ -14,7 +14,7 @@ import java.util.zip.ZipFile;
 import static org.junit.jupiter.api.Assertions.fail;
 
 
-public class ReadFileFromArchive {
+public class ReadCSVFileFromArchive {
 
     @DisplayName("Чтение и проверка CSV файла из ZIP архива")
     @Test
