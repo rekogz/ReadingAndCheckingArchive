@@ -1,4 +1,6 @@
-import org.apache.poi.ss.usermodel.*;
+package ReadingAndCheckingTest;
+
+import com.codeborne.pdftest.PDF;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,15 +14,13 @@ import java.util.zip.ZipFile;
 import static org.junit.jupiter.api.Assertions.fail;
 
 
-public class ReadXLSXFileFromArchive {
+public class ReadPDFFileFromArchive {
 
-    @DisplayName("Чтение и проверка XLSX файла из ZIP архива")
+    @DisplayName("Чтение и проверка PDF файла из ZIP архива")
     @Test
-    public void xlsxParsingTest() throws Exception {
+    public void pdfParsingTest() throws Exception {
         String archiveFilePath = "src/test/resources/setup.zip";
-        String fileNameToRead = "setup.xlsx";
-        String expectedFirstCell = "Наименование";
-        String expectedSecondCell = "DeepL";
+        String fileNameToRead = "Топ 10 фразовых глаголов.pdf";
 
         boolean isFirst = true;
 
@@ -37,16 +37,8 @@ public class ReadXLSXFileFromArchive {
             ZipEntry entry = zipFile.getEntry(fileNameToRead);
             if (entry != null) {
                 try (InputStream is = zipFile.getInputStream(entry)) {
-                    Workbook workbook = WorkbookFactory.create(is);
-                    Sheet sheet = workbook.getSheetAt(0);
-                    Row firstRow = sheet.getRow(0);
-                    Row secondRow = sheet.getRow(1);
-                    Cell firstCell = firstRow.getCell(0);
-                    Cell firstRowCell = secondRow.getCell(0);
-                    System.out.println("Содержимое первой ячейки: " + firstCell.toString());
-                    System.out.println("Содержимое первой ячейки второй строки: " + firstRowCell.toString());
-                    Assertions.assertEquals(expectedFirstCell, firstCell.toString());
-                    Assertions.assertEquals(expectedSecondCell, firstRowCell.toString());
+                    PDF pdf = new PDF(is);
+                    Assertions.assertTrue(pdf.text.contains("ТОП 10 ФРАЗОВЫХ ГЛАГОЛОВ ОТ НОСИТЕЛЕЙ"));
                 }
             } else {
                 fail("Файл: " + fileNameToRead + " не найден в архиве");

@@ -1,4 +1,6 @@
-import com.codeborne.pdftest.PDF;
+package ReadingAndCheckingTest;
+
+import org.apache.poi.ss.usermodel.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,13 +14,15 @@ import java.util.zip.ZipFile;
 import static org.junit.jupiter.api.Assertions.fail;
 
 
-public class ReadPDFFileFromArchive {
+public class ReadXLSXFileFromArchive {
 
-    @DisplayName("Чтение и проверка PDF файла из ZIP архива")
+    @DisplayName("Чтение и проверка XLSX файла из ZIP архива")
     @Test
-    public void pdfParsingTest() throws Exception {
+    public void xlsxParsingTest() throws Exception {
         String archiveFilePath = "src/test/resources/setup.zip";
-        String fileNameToRead = "Топ 10 фразовых глаголов.pdf";
+        String fileNameToRead = "setup.xlsx";
+        String expectedFirstCell = "Наименование";
+        String expectedSecondCell = "DeepL";
 
         boolean isFirst = true;
 
@@ -35,8 +39,16 @@ public class ReadPDFFileFromArchive {
             ZipEntry entry = zipFile.getEntry(fileNameToRead);
             if (entry != null) {
                 try (InputStream is = zipFile.getInputStream(entry)) {
-                    PDF pdf = new PDF(is);
-                    Assertions.assertTrue(pdf.text.contains("ТОП 10 ФРАЗОВЫХ ГЛАГОЛОВ ОТ НОСИТЕЛЕЙ"));
+                    Workbook workbook = WorkbookFactory.create(is);
+                    Sheet sheet = workbook.getSheetAt(0);
+                    Row firstRow = sheet.getRow(0);
+                    Row secondRow = sheet.getRow(1);
+                    Cell firstCell = firstRow.getCell(0);
+                    Cell firstRowCell = secondRow.getCell(0);
+                    System.out.println("Содержимое первой ячейки: " + firstCell.toString());
+                    System.out.println("Содержимое первой ячейки второй строки: " + firstRowCell.toString());
+                    Assertions.assertEquals(expectedFirstCell, firstCell.toString());
+                    Assertions.assertEquals(expectedSecondCell, firstRowCell.toString());
                 }
             } else {
                 fail("Файл: " + fileNameToRead + " не найден в архиве");
