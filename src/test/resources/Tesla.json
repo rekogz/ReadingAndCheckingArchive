@@ -1,0 +1,31 @@
+{
+  "brand": "Tesla",
+  "model": "Model S Performance",
+  "year": 2022,
+  "bodyType": "Sedan",
+  "driveType": "AWD",
+  "engine": {
+    "type": "Electric",
+    "power": "778 hp",
+    "torque": "840 Nm"
+  },
+  "acceleration": {
+    "zeroToHundred": "2.3 seconds",
+    "topSpeed": "322 km/h"
+  },
+  "battery": {
+    "capacity": "100 kWh",
+    "range": "up to 652 km"
+  },
+  "interior": {
+    "seats": 5,
+    "infotainmentSystem": "17-inch Touchscreen Display",
+    "driverAssist": ["Autopilot", "Full Self-Driving Capability"]
+  },
+  "suspension": {
+    "adaptiveAirSuspension": true,
+    "rideHeight": "adjustable"
+  },
+  "weight": "2,241 kg",
+  "price": "starting from $99,990"
+}
